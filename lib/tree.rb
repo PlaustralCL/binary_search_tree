@@ -26,9 +26,17 @@ class Tree
   end
   # rubocop: enable Metrics/AbcSize
 
+  # The pretty_print method is fromhttps://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/binary-search-trees
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right_node, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_node
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left_node, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_node
+  end
+
 end
 
 
-test_array = [1, 2, 3, 4, 5]
+test_array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(test_array)
 p tree.root
+tree.pretty_print
