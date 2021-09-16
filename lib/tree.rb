@@ -11,6 +11,7 @@ class Tree
     @root = build_tree(initial_array)
   end
 
+  # rubocop: disable Metrics/AbcSize
   def build_tree(array)
     return Node.new(data: array.first) if array.length == 1
     return nil if array.empty?
@@ -23,6 +24,8 @@ class Tree
     root.right_node = build_tree(array[middle + 1..-1])
     @root = root
   end
+  # rubocop: enable Metrics/AbcSize
+
 end
 
 
