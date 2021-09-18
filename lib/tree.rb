@@ -57,11 +57,23 @@ class Tree
     queue = [root_node]
     level_order_list = []
     until queue.empty?
+      level_order_list << queue.first.data
       queue << left(queue) unless left(queue).nil?
       queue << right(queue) unless right(queue).nil?
-      level_order_list << queue.first.data
       queue.shift
     end
+    level_order_list
+  end
+
+  def level_order_recursive(root = root_node, level_order_list = [root_node.data])
+    return unless root
+
+    level_order_list << root.left_node.data unless root.left_node.nil?
+    level_order_list << root.right_node.data unless root.right_node.nil?
+
+    level_order_recursive(root.left_node, level_order_list)
+    level_order_recursive(root.right_node, level_order_list)
+
     level_order_list
   end
 
@@ -95,4 +107,5 @@ puts "\n\n\n"
 p tree.find(40)
 puts tree.find(40)
 tree.pretty_print
-p tree.level_order
+puts "Level order using iteration: #{tree.level_order}"
+puts "Level order using recurssion: #{tree.level_order_recursive}"
