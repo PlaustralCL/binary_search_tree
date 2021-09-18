@@ -53,6 +53,26 @@ class Tree
     end
   end
 
+  def level_order
+    queue = [root_node]
+    level_order_list = []
+    until queue.empty?
+      queue << left(queue) unless left(queue).nil?
+      queue << right(queue) unless right(queue).nil?
+      level_order_list << queue.first.data
+      queue.shift
+    end
+    level_order_list
+  end
+
+  def left(array)
+    array.first.left_node
+  end
+
+  def right(array)
+    array.first.right_node
+  end
+
   # The pretty_print method is fromhttps://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/binary-search-trees
   def pretty_print(node = @root_node, prefix = '', is_left = true)
     pretty_print(node.right_node, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_node
@@ -75,3 +95,4 @@ puts "\n\n\n"
 p tree.find(40)
 puts tree.find(40)
 tree.pretty_print
+p tree.level_order
