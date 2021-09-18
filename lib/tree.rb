@@ -5,10 +5,10 @@ require_relative "node"
 
 # Builds and maintains a binary search tree
 class Tree
-  attr_accessor :root
+  attr_accessor :root_node
 
   def initialize(initial_array)
-    @root = build_tree(initial_array)
+    @root_node = build_tree(initial_array)
   end
 
   # rubocop: disable Metrics/AbcSize
@@ -22,13 +22,13 @@ class Tree
     root = Node.new(data: array[middle])
     root.left_node = build_tree(array[0..middle - 1])
     root.right_node = build_tree(array[middle + 1..-1])
-    @root = root
+    @root_node = root
   end
   # rubocop: enable Metrics/AbcSize
 
   def insert(value)
     new_node = Node.new(data: value)
-    current_node = root
+    current_node = root_node
 
     loop do
       if new_node < current_node
@@ -45,7 +45,7 @@ class Tree
   end
 
   # The pretty_print method is fromhttps://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/binary-search-trees
-  def pretty_print(node = @root, prefix = '', is_left = true)
+  def pretty_print(node = @root_node, prefix = '', is_left = true)
     pretty_print(node.right_node, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_node
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left_node, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_node
@@ -57,7 +57,7 @@ end
 # test_array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 test_array = [10, 20, 30, 40, 50]
 tree = Tree.new(test_array)
-p tree.root
+p tree.root_node
 tree.pretty_print
 puts "\n\n\n"
 tree.insert(64)
