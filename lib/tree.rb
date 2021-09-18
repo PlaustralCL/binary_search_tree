@@ -44,6 +44,15 @@ class Tree
     new_node < current_node ? current_node.left_node = new_node : current_node.right_node = new_node
   end
 
+  def find(value)
+    current_node = root_node
+    loop do
+      return current_node if current_node.data == value
+
+      current_node = value < current_node.data ? current_node.left_node : current_node.right_node
+    end
+  end
+
   # The pretty_print method is fromhttps://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/binary-search-trees
   def pretty_print(node = @root_node, prefix = '', is_left = true)
     pretty_print(node.right_node, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_node
@@ -61,4 +70,8 @@ p tree.root_node
 tree.pretty_print
 puts "\n\n\n"
 tree.insert(64)
+tree.pretty_print
+puts "\n\n\n"
+p tree.find(40)
+puts tree.find(40)
 tree.pretty_print
