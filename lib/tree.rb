@@ -26,6 +26,24 @@ class Tree
   end
   # rubocop: enable Metrics/AbcSize
 
+  def insert(value)
+    new_node = Node.new(data: value)
+    current_node = root
+
+    loop do
+      if new_node < current_node
+        break if current_node.left_node.nil?
+
+        current_node = current_node.left_node
+      else
+        break if current_node.right_node.nil?
+
+        current_node = current_node.right_node
+      end
+    end
+    new_node < current_node ? current_node.left_node = new_node : current_node.right_node = new_node
+  end
+
   # The pretty_print method is fromhttps://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/binary-search-trees
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_node, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_node
@@ -36,7 +54,11 @@ class Tree
 end
 
 
-test_array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+# test_array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+test_array = [10, 20, 30, 40, 50]
 tree = Tree.new(test_array)
 p tree.root
+tree.pretty_print
+puts "\n\n\n"
+tree.insert(64)
 tree.pretty_print
