@@ -88,14 +88,24 @@ class Tree
     level_order_list
   end
 
-  def preorder(root = root_node, preorder_list = [])
+  def preorder(root = root_node, dfs_list = [])
     return unless root
 
-    preorder_list << root.data
-    preorder(root.left_node, preorder_list)
-    preorder(root.right_node, preorder_list)
+    dfs_list << root.data
+    preorder(root.left_node, dfs_list)
+    preorder(root.right_node, dfs_list)
 
-    preorder_list
+    dfs_list
+  end
+
+  def inorder(root = root_node, dfs_list = [])
+    return unless root
+
+    inorder(root.left_node, dfs_list)
+    dfs_list << root.data
+    inorder(root.right_node, dfs_list)
+
+    dfs_list
   end
 
   def left(array)
@@ -123,6 +133,7 @@ p tree.root_node
 tree.pretty_print
 puts "\n\n\n"
 tree.insert(64)
+tree.insert(22)
 tree.pretty_print
 puts "\n\n\n"
 p tree.find(40)
@@ -133,4 +144,6 @@ puts "Level order using recurssion: #{tree.level_order_recursive}"
 puts "\n\n\n"
 tree.insert_recursive(12)
 tree.pretty_print
-p tree.preorder
+puts "\n\n"
+puts "Preorder traversal results: #{tree.preorder}"
+puts "Inorder traversal results: #{tree.inorder}"
