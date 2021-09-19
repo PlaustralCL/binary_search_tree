@@ -69,6 +69,16 @@ class Tree
     end
   end
 
+  def find_recursive(value, root = root_node, target_node = [])
+    return unless root
+
+    target_node << root if root.data == value
+    find_recursive(value, root.left_node, target_node)
+    find_recursive(value, root.right_node, target_node)
+
+    target_node.first
+  end
+
   def level_order
     queue = [root_node]
     level_order_list = []
@@ -171,7 +181,7 @@ tree.insert(22)
 tree.pretty_print
 puts "\n\n\n"
 puts "Find 40. Node: #{tree.find(40)}, value: #{tree.find(40).data}"
-# puts "Find recursively 40. Node: #{tree.find_recursive(40)}, value: #{tree.find_recursive(40).data}"
+puts "Find recursively 40. Node: #{tree.find_recursive(40)}, value: #{tree.find_recursive(40).data}"
 tree.pretty_print
 puts "\n\n\n"
 puts "Level order using iteration: #{tree.level_order}"
