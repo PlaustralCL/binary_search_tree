@@ -4,6 +4,7 @@ require "pry"
 require_relative "node"
 
 # Builds and maintains a binary search tree
+# rubocop: disable Metrics/ClassLength
 class Tree
   attr_accessor :root_node
 
@@ -60,7 +61,11 @@ class Tree
     loop do
       return current_node if current_node.data == value
 
-      current_node = value < current_node.data ? current_node.left_node : current_node.right_node
+      current_node = if value < current_node.data
+                       current_node.left_node
+                     else
+                       current_node.right_node
+                     end
     end
   end
 
@@ -118,6 +123,26 @@ class Tree
     dfs_list
   end
 
+  def height(target_node)
+
+  end
+
+  def depth(value)
+    current_node = root_node
+    node_depth = 0
+    loop do
+      return node_depth if current_node.data == value
+
+      node_depth += 1
+      current_node = if value < current_node.data
+                       current_node.left_node
+                     else
+                       current_node.right_node
+                     end
+    end
+  end
+
+
   def left(array)
     array.first.left_node
   end
@@ -146,15 +171,19 @@ tree.insert(64)
 tree.insert(22)
 tree.pretty_print
 puts "\n\n\n"
-p tree.find(40)
-puts tree.find(40)
+puts "Find 40. Node: #{tree.find(40)}, value: #{tree.find(40).data}"
+# puts "Find recursively 40. Node: #{tree.find_recursive(40)}, value: #{tree.find_recursive(40).data}"
 tree.pretty_print
+puts "\n\n\n"
 puts "Level order using iteration: #{tree.level_order}"
 puts "Level order using recurssion: #{tree.level_order_recursive}"
-puts "\n\n\n"
 tree.insert_recursive(12)
 tree.pretty_print
 puts "\n\n"
 puts "Preorder traversal results: #{tree.preorder}"
 puts "Inorder traversal results: #{tree.inorder}"
 puts "Postorder traversal results: #{tree.postorder}"
+puts ""
+puts "Depth of 40: #{tree.depth(40)}"
+puts "Depth of 30: #{tree.depth(30)}"
+puts "Depth of 12: #{tree.depth(12)}"
