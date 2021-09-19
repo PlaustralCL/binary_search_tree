@@ -44,6 +44,17 @@ class Tree
     new_node < current_node ? current_node.left_node = new_node : current_node.right_node = new_node
   end
 
+  def insert_recursive(value, root = root_node)
+    return Node.new(data: value) unless root
+
+    if value < root.data
+      root.left_node = insert_recursive(value, root.left_node)
+    else
+      root.right_node = insert_recursive(value, root.right_node)
+    end
+    root
+  end
+
   def find(value)
     current_node = root_node
     loop do
@@ -109,3 +120,6 @@ puts tree.find(40)
 tree.pretty_print
 puts "Level order using iteration: #{tree.level_order}"
 puts "Level order using recurssion: #{tree.level_order_recursive}"
+puts "\n\n\n"
+tree.insert_recursive(12)
+tree.pretty_print
