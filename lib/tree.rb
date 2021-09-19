@@ -108,6 +108,16 @@ class Tree
     dfs_list
   end
 
+  def postorder(root = root_node, dfs_list = [])
+    return unless root
+
+    postorder(root.left_node, dfs_list)
+    postorder(root.right_node, dfs_list)
+    dfs_list << root.data
+
+    dfs_list
+  end
+
   def left(array)
     array.first.left_node
   end
@@ -147,3 +157,4 @@ tree.pretty_print
 puts "\n\n"
 puts "Preorder traversal results: #{tree.preorder}"
 puts "Inorder traversal results: #{tree.inorder}"
+puts "Postorder traversal results: #{tree.postorder}"
