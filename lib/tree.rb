@@ -133,12 +133,10 @@ class Tree
     dfs_list
   end
 
-  def height(value, root = root_node)
+  def height(root = root_node)
     return -1 unless root
 
-    left_height = height(value, root.left_node)
-    right_height = height(value, root.right_node)
-    [left_height, right_height].max + 1
+    [height(root.left_node), height(root.right_node)].max + 1
   end
 
   def depth(value)
@@ -201,6 +199,6 @@ puts "Depth of 40: #{tree.depth(40)}"
 puts "Depth of 30: #{tree.depth(30)}"
 puts "Depth of 12: #{tree.depth(12)}"
 puts ""
-puts "Height of 20: #{tree.height(20, tree.find(20))}"
-puts "Height of 30: #{tree.height(30, tree.find(30))}"
-puts "height of 64: #{tree.height(64, tree.find(64))}"
+puts "Height of 20: #{tree.height(tree.find(20))}"
+puts "Height of 30: #{tree.height(tree.find(30))}"
+puts "height of 64: #{tree.height(tree.find(64))}"
