@@ -134,14 +134,13 @@ class Tree
       return node_depth if current_node.data == value
 
       node_depth += 1
-      current_node = if value < current_node.data
-                       current_node.left_node
-                     else
-                       current_node.right_node
-                     end
+      current_node = next_node(current_node, value)
     end
   end
 
+  def next_node(current_node, value)
+    value < current_node.data ? current_node.left_node : current_node.right_node
+  end
 
   def left(array)
     array.first.left_node
