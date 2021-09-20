@@ -150,30 +150,41 @@ class Tree
     end
   end
 
-  #rubocop:todo Metrics/AbcSize
-  #rubocop:todo Metrics/MethodLength
-  # def delete(value, root = root_node)
-  #   return unless root
-
-  #   if value < root.data
-  #     root.left_node = delete(value, root.left_node)
-  #   elsif value > root.data
-  #     root.right_node = delete(value, root.right_node)
-  #   else
-  #     if !root.left_node
-  #       temp = root.right_node
-  #       root = nil
-  #       temp
-  #     elsif !root.right_node
-  #       temp = root.left_node
-  #       root = nil
-  #       temp
-  #     end
-  #   end
-  # end
-
-  # rubocop:todo Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def delete(value)
+    current_node, previous_node = find_target_node(value)
+
+    if current_node.left_node.nil? && current_node.right_node.nil?
+      delete_with_no_children(value, previous_node)
+    elsif current_node.left_node.nil? || current_node.right_node.nil?
+      delete_with_one_child(value, current_node, previous_node)
+    else
+      delete_with_two_children(current_node)
+    end
+  end
+
+  def delete_with_two_children(current_node)
+    replacement_node = min_value_node(current_node.right_node)
+    delete(replacement_node.data)
+    current_node.data = replacement_node.data
+  end
+
+  def delete_with_one_child(value, current_node, previous_node)
+    if value < previous_node.data
+      previous_node.left_node = current_node.left_node || current_node.right_node
+    else
+      previous_node.right_node = current_node.left_node || current_node.right_node
+    end
+  end
+
+  def delete_with_no_children(value, previous_node)
+    if value < previous_node.data
+      previous_node.left_node = nil
+    else
+      previous_node.right_node = nil
+    end
+  end
+
+  def find_target_node(value)
     current_node = root_node
     previous_node = current_node
     loop do
@@ -186,24 +197,7 @@ class Tree
                        current_node.right_node
                      end
     end
-    if current_node.left_node.nil? && current_node.right_node.nil?
-      if value < previous_node.data
-        previous_node.left_node = nil
-      else
-        previous_node.right_node = nil
-      end
-    elsif current_node.left_node.nil? || current_node.right_node.nil?
-      if value < previous_node.data
-        previous_node.left_node = current_node.left_node || current_node.right_node
-      else
-        previous_node.right_node = current_node.left_node || current_node.right_node
-      end
-    else
-      replacement_node = min_value_node(current_node.right_node)
-      delete(replacement_node.data)
-      current_node.data = replacement_node.data
-    end
-
+    [current_node, previous_node]
   end
 
   def min_value_node(node)
@@ -267,8 +261,8 @@ puts "height of 64: #{tree.height(tree.find(64))}"
 puts ""
 tree.insert(35)
 tree.insert(37)
-# tree.delete(64)
-# tree.delete(10)
+tree.delete(64)
+tree.delete(10)
 tree.pretty_print
 puts "\n\n"
 tree.delete(30)
