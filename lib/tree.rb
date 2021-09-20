@@ -199,7 +199,7 @@ class Tree
         previous_node.right_node = current_node.left_node || current_node.right_node
       end
     else
-      replacement_node = min_value_node(current_node)
+      replacement_node = min_value_node(current_node.right_node)
       delete(replacement_node.data)
       current_node.data = replacement_node.data
     end
@@ -271,6 +271,7 @@ tree.insert(37)
 # tree.delete(10)
 tree.pretty_print
 puts "\n\n"
-tree.delete(50)
+tree.delete(30)
 tree.pretty_print
 puts "\n\n"
+p tree.inorder
