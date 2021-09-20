@@ -12,7 +12,7 @@ class Tree
     @root_node = build_tree(initial_array)
   end
 
-  # rubocop: disable Metrics/AbcSize
+  # rubocop:todo Metrics/AbcSize
   def build_tree(array)
     return Node.new(data: array.first) if array.length == 1
     return nil if array.empty?
@@ -172,6 +172,7 @@ class Tree
   #   end
   # end
 
+  # rubocop:todo Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def delete(value)
     current_node = root_node
     previous_node = current_node
@@ -191,6 +192,13 @@ class Tree
       else
         previous_node.right_node = nil
       end
+    elsif current_node.left_node.nil? || current_node.right_node.nil?
+      if value < previous_node.data
+        previous_node.left_node = current_node.left_node || current_node.right_node
+      else
+        previous_node.right_node = current_node.left_node || current_node.right_node
+      end
+
     end
 
   end
@@ -254,5 +262,8 @@ puts "Height of 30: #{tree.height(tree.find(30))}"
 puts "height of 64: #{tree.height(tree.find(64))}"
 puts ""
 tree.delete(64)
+tree.pretty_print
+puts "\n\n"
+tree.delete(10)
 tree.pretty_print
 puts "\n\n"
