@@ -150,8 +150,8 @@ class Tree
     end
   end
 
-  #rubocop: disable Metrics/AbcSize
-  #rubocop: disable Metrics/MethodLength
+  #rubocop:todo Metrics/AbcSize
+  #rubocop:todo Metrics/MethodLength
   # def delete(value, root = root_node)
   #   return unless root
 
@@ -198,14 +198,18 @@ class Tree
       else
         previous_node.right_node = current_node.left_node || current_node.right_node
       end
-
+    else
+      replacement_node = min_value_node(current_node)
+      delete(replacement_node.data)
+      current_node.data = replacement_node.data
     end
 
   end
 
   def min_value_node(node)
     current_node = node
-    current_node = current_node.left_node until current_node.left_node
+    current_node = current_node.left_node while current_node.left_node
+    current_node
   end
 
   def next_node(current_node, value)
@@ -261,9 +265,12 @@ puts "Height of 20: #{tree.height(tree.find(20))}"
 puts "Height of 30: #{tree.height(tree.find(30))}"
 puts "height of 64: #{tree.height(tree.find(64))}"
 puts ""
-tree.delete(64)
+tree.insert(35)
+tree.insert(37)
+# tree.delete(64)
+# tree.delete(10)
 tree.pretty_print
 puts "\n\n"
-tree.delete(10)
+tree.delete(50)
 tree.pretty_print
 puts "\n\n"
