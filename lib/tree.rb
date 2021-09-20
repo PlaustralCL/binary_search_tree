@@ -150,6 +150,56 @@ class Tree
     end
   end
 
+  #rubocop: disable Metrics/AbcSize
+  #rubocop: disable Metrics/MethodLength
+  # def delete(value, root = root_node)
+  #   return unless root
+
+  #   if value < root.data
+  #     root.left_node = delete(value, root.left_node)
+  #   elsif value > root.data
+  #     root.right_node = delete(value, root.right_node)
+  #   else
+  #     if !root.left_node
+  #       temp = root.right_node
+  #       root = nil
+  #       temp
+  #     elsif !root.right_node
+  #       temp = root.left_node
+  #       root = nil
+  #       temp
+  #     end
+  #   end
+  # end
+
+  def delete(value)
+    current_node = root_node
+    previous_node = current_node
+    loop do
+      break if current_node.data == value
+
+      previous_node = current_node
+      current_node = if value < current_node.data
+                       current_node.left_node
+                     else
+                       current_node.right_node
+                     end
+    end
+    if current_node.left_node.nil? && current_node.right_node.nil?
+      if value < previous_node.data
+        previous_node.left_node = nil
+      else
+        previous_node.right_node = nil
+      end
+    end
+
+  end
+
+  def min_value_node(node)
+    current_node = node
+    current_node = current_node.left_node until current_node.left_node
+  end
+
   def next_node(current_node, value)
     value < current_node.data ? current_node.left_node : current_node.right_node
   end
@@ -202,3 +252,7 @@ puts ""
 puts "Height of 20: #{tree.height(tree.find(20))}"
 puts "Height of 30: #{tree.height(tree.find(30))}"
 puts "height of 64: #{tree.height(tree.find(64))}"
+puts ""
+tree.delete(64)
+tree.pretty_print
+puts "\n\n"
