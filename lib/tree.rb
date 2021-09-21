@@ -163,6 +163,13 @@ class Tree
     end
   end
 
+  def rebalance
+    return "The tree is already balanced" if balanced?
+
+    tree_array = level_order
+    build_tree(tree_array)
+  end
+
   def delete(value)
     current_node, previous_node = find_target_node(value)
 
@@ -296,12 +303,19 @@ tree.insert(60)
 tree.pretty_print
 puts "\n\n"
 puts "The tree is balanced: #{tree.balanced?}"
+puts "Rebalance tree. #{tree.rebalance}"
 puts "\n\n"
 tree.insert(70)
 tree.insert(80)
 tree.insert(6)
 tree.insert(3)
 tree.insert(90)
+tree.pretty_print
+puts "\n\n"
+puts "The tree is balanced: #{tree.balanced?}"
+puts ""
+puts "Rebalanced tree:"
+tree.rebalance
 tree.pretty_print
 puts "\n\n"
 puts "The tree is balanced: #{tree.balanced?}"
