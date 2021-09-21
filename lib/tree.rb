@@ -150,6 +150,19 @@ class Tree
     end
   end
 
+  def balanced?(root = root_node)
+    return true if root.nil?
+
+    left_height = height(root.left_node)
+    right_height = height(root.right_node)
+
+    if (left_height - right_height).abs <= 1 && balanced?(root.left_node) && balanced?(root.right_node)
+      true
+    else
+      false
+    end
+  end
+
   def delete(value)
     current_node, previous_node = find_target_node(value)
 
@@ -260,7 +273,7 @@ puts "Height of 30: #{tree.height(tree.find(30))}"
 puts "height of 64: #{tree.height(tree.find(64))}"
 puts ""
 tree.insert(35)
-tree.insert(37)
+# tree.insert(37)
 tree.delete(64)
 tree.delete(10)
 tree.pretty_print
@@ -269,3 +282,17 @@ tree.delete(30)
 tree.pretty_print
 puts "\n\n"
 p tree.inorder
+puts ""
+tree.insert(60)
+tree.pretty_print
+puts "\n\n"
+puts "The tree is balanced: #{tree.balanced?}"
+puts "\n\n"
+tree.insert(70)
+tree.insert(80)
+tree.insert(6)
+tree.insert(3)
+tree.insert(90)
+tree.pretty_print
+puts "\n\n"
+puts "The tree is balanced: #{tree.balanced?}"
