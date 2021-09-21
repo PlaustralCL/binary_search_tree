@@ -70,7 +70,7 @@ class Tree
   end
 
   def find_recursive(value, root = root_node, target_node = [])
-    return unless root
+    return if root.nil?
 
     target_node << root if root.data == value
     find_recursive(value, root.left_node, target_node)
@@ -92,7 +92,7 @@ class Tree
   end
 
   def level_order_recursive(root = root_node, level_order_list = [root_node.data])
-    return unless root
+    return if root.nil?
 
     level_order_list << root.left_node.data unless root.left_node.nil?
     level_order_list << root.right_node.data unless root.right_node.nil?
@@ -104,7 +104,7 @@ class Tree
   end
 
   def preorder(root = root_node, dfs_list = [])
-    return unless root
+    return if root.nil?
 
     dfs_list << root.data
     preorder(root.left_node, dfs_list)
@@ -114,7 +114,7 @@ class Tree
   end
 
   def inorder(root = root_node, dfs_list = [])
-    return unless root
+    return if root.nil?
 
     inorder(root.left_node, dfs_list)
     dfs_list << root.data
@@ -124,7 +124,7 @@ class Tree
   end
 
   def postorder(root = root_node, dfs_list = [])
-    return unless root
+    return if root.nil?
 
     postorder(root.left_node, dfs_list)
     postorder(root.right_node, dfs_list)
@@ -134,7 +134,7 @@ class Tree
   end
 
   def height(root = root_node)
-    return -1 unless root
+    return -1 if root.nil?
 
     [height(root.left_node), height(root.right_node)].max + 1
   end
@@ -244,19 +244,25 @@ end
 # test_array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 test_array = [10, 20, 30, 40, 50]
 tree = Tree.new(test_array)
+puts "The root node is:"
 p tree.root_node
+puts "\n\n\n"
+puts "The starting tree:"
 tree.pretty_print
 puts "\n\n\n"
+
+puts "Insert nodes:"
 tree.insert(64)
 tree.insert(22)
 tree.pretty_print
 puts "\n\n\n"
+
 puts "Find 40. Node: #{tree.find(40)}, value: #{tree.find(40).data}"
 puts "Find recursively 40. Node: #{tree.find_recursive(40)}, value: #{tree.find_recursive(40).data}"
-tree.pretty_print
-puts "\n\n\n"
 puts "Level order using iteration: #{tree.level_order}"
 puts "Level order using recurssion: #{tree.level_order_recursive}"
+puts ""
+puts "Insert using recurssion:"
 tree.insert_recursive(12)
 tree.pretty_print
 puts "\n\n"
@@ -272,8 +278,12 @@ puts "Height of 20: #{tree.height(tree.find(20))}"
 puts "Height of 30: #{tree.height(tree.find(30))}"
 puts "height of 64: #{tree.height(tree.find(64))}"
 puts ""
+puts "Set up for deletion checks:"
 tree.insert(35)
+tree.pretty_print
+puts "\n\n"
 # tree.insert(37)
+puts "Delete:"
 tree.delete(64)
 tree.delete(10)
 tree.pretty_print
@@ -281,8 +291,7 @@ puts "\n\n"
 tree.delete(30)
 tree.pretty_print
 puts "\n\n"
-p tree.inorder
-puts ""
+puts "Balance checks"
 tree.insert(60)
 tree.pretty_print
 puts "\n\n"
